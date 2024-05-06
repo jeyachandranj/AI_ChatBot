@@ -21,7 +21,7 @@ document.getElementById("popupBtn").addEventListener("click", openNewPage);
   
   
 let userMessage = null; 
-const API_KEY =  'sk-proj-iqaEc5bFP1mhLd7Q6t1AT3BlbkFJjjpXOthCrzM1R9x8SU0X'; 
+const API_KEY =  'sk-proj-suPH14MjHazz7gAzrbDzT3BlbkFJDrwAFTRlfQn1EGOS9fXk'; 
 const inputInitHeight = chatInput.scrollHeight;
 
 const aiButtons = document.querySelectorAll(".sidebar a");
