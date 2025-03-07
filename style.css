@@ -24,6 +24,7 @@ body {
   border-radius: 50%;
   background: #724ae8;
   transition: all 0.2s ease;
+  z-index: 1000;
 }
 body.show-chatbot .chatbot-toggler {
   transform: rotate(90deg);
@@ -41,17 +42,17 @@ body.show-chatbot .chatbot-toggler span:last-child {
 }
 
 .logo-button {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 999;
-    border-radius: 25%;
-  }
-  
-  .logo-button img {
-    width: 40px;
-    height: 40px;
-  }
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+  border-radius: 25%;
+}
+
+.logo-button img {
+  width: 40px;
+  height: 40px;
+}
 
 .chatbot {
   position: fixed;
@@ -157,10 +158,8 @@ header h2 {
   margin-bottom: 20px;
   align-items: center;
   margin-left: 300px;
-  background: #40414f
-  ;
+  background: #40414f;
   border-radius: 10px;
-
   padding: 3px 20px;
   border-top: 1px solid black;
 }
@@ -184,362 +183,482 @@ header h2 {
   align-items: center;
   visibility: hidden;
   font-size: 1.35rem;
+  color: white;
 }
 .chat-input textarea:valid ~ span {
   visibility: visible;
 }
 
-@media (max-width: 490px) {
-  .chatbot-toggler {
-    right: 20px;
+/* Mic button */
+.chat-input .mic-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.35rem;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 1400px) {
+  .chatbot {
+    width: calc(100% - 240px);
+    margin-left: 240px;
+  }
+  
+  .chatbot .chat-input {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .chatbot {
+    width: calc(100% - 240px);
+    height: 90vh;
+    margin-left: 240px;
+  }
+  
+  .chatbot .chatbox {
+    height: calc(90vh - 240px);
+  }
+  
+  .chatbot .chat-input {
+    width: 80%;
+    margin-left: 10%;
+  }
+}
+
+@media (max-width: 768px) {
+  .chatbot {
+    width: 100%;
+    height: 100vh;
+    margin-left: 0;
+    border-radius: 0;
+  }
+  
+  #check:checked ~ .chatbot {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+  }
+  
+  .chatbot .chatbox {
+    height: calc(100vh - 180px);
+  }
+  
+  .chatbot .chat-input {
+    width: 90%;
+    margin-left: 5%;
     bottom: 20px;
   }
-  .chatbot {
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    border-radius: 0;
-    width: 100%;
-  }
-  .chatbot .chatbox {
-    height: 90%;
-    padding: 25px 15px 100px;
-  }
-  .chatbot .chat-input {
-    padding: 5px 15px;
-  }
+  
   .chatbot header span {
     display: block;
   }
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-  }
-  :root {
-    --accent-color: #fff;
-    --gradient-color: #FBFBFB;
-  }
-  body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-     width: 100vw;
-    height: 100vh;
-    background-image: linear-gradient(-45deg, #e3eefe 0%, white 100%);
+@media (max-width: 576px) {
+  .chatbot-toggler {
+    right: 20px;
+    bottom: 20px;
   }
   
-  .sidebar{
-    position: fixed;
-    width: 240px;
-    left: -240px;
-    height: 100%;
-    background-color: #1f2937;
-    transition: all .5s ease;
-  }
-  .sidebar header{
-    font-size: 28px;
-    color: #353535;
-    line-height: 70px;
-    text-align: center;
-    background-color: #fff;
-    user-select: none;
-    font-family: 'Lato', sans-serif;
-  }
-  .sidebar a{
-    display: block;
-    height: 65px;
+  .chatbot {
+    height: 100vh;
     width: 100%;
-    color: #353535;
-    line-height: 65px;
-    padding-left: 30px;
-    box-sizing: border-box;
-    border-left: 5px solid transparent;
-    font-family: 'Lato', sans-serif;
-    transition: all .5s ease;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+    margin-left: 0;
   }
-  a.active,a:hover{
-    border-left: 5px solid var(--accent-color);
-    color: #fff;
-     background: linear-gradient(to left, var(--accent-color), var(--gradient-color));
+  
+  #check:checked ~ .chatbot {
+    margin-left: 0;
+    width: 100%;
   }
-  .sidebar a i{
-    font-size: 23px;
-    margin-right: 16px;
+  
+  .sidebar {
+    width: 100%;
+    height: 100vh;
+    left: -100%;
+    z-index: 2000;
   }
-  .sidebar a span{
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  #check{
-    display: none;
-  }
-  label #btn,label #cancel{
-    position: absolute;
-    left: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 15px 30px;
-    font-size: 29px;
-    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-      inset -7px -7px 10px 0px rgba(0,0,0,.1),
-     3.5px 3.5px 20px 0px rgba(0,0,0,.1),
-     2px 2px 5px 0px rgba(0,0,0,.1);
-    height: 45px;
-    width: 45px;
-    text-align: center;
-    text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
-    line-height: 45px;
-    transition: all .5s ease;
-  }
-  label #cancel{
-    opacity: 0;
-    visibility: hidden;
-  }
-  #check:checked ~ .sidebar{
+  
+  #check:checked ~ .sidebar {
     left: 0;
   }
-  #check:checked ~ label #btn{
-    margin-left: 245px;
-    opacity: 0;
-    visibility: hidden;
+  
+  #check:checked ~ label #cancel {
+    margin-left: calc(100% - 45px);
+    z-index: 2001;
   }
-  #check:checked ~ label #cancel{
-    margin-left: 245px;
+  
+  .chatbot .chatbox {
+    height: calc(100vh - 150px);
+    padding: 15px 10px 100px;
+  }
+  
+  .chatbot .chat-input {
+    width: 95%;
+    margin-left: 2.5%;
+    padding: 5px 10px;
+    bottom: 10px;
+  }
+  
+  .chatbox .chat p {
+    max-width: 85%;
+    font-size: 0.9rem;
+  }
+}
+
+/* Sidebar styles */
+*{
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+:root {
+  --accent-color: #fff;
+  --gradient-color: #FBFBFB;
+}
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(-45deg, #e3eefe 0%, white 100%);
+}
+
+.sidebar{
+  position: fixed;
+  width: 240px;
+  left: -240px;
+  height: 100%;
+  background-color: #1f2937;
+  transition: all .5s ease;
+  z-index: 1050;
+}
+.sidebar header{
+  font-size: 28px;
+  color: #353535;
+  line-height: 70px;
+  text-align: center;
+  background-color: #fff;
+  user-select: none;
+  font-family: 'Lato', sans-serif;
+}
+.sidebar a{
+  display: block;
+  height: 65px;
+  width: 100%;
+  color: #353535;
+  line-height: 65px;
+  padding-left: 30px;
+  box-sizing: border-box;
+  border-left: 5px solid transparent;
+  font-family: 'Lato', sans-serif;
+  transition: all .5s ease;
+}
+a.active,a:hover{
+  border-left: 5px solid var(--accent-color);
+  color: #fff;
+   background: linear-gradient(to left, var(--accent-color), var(--gradient-color));
+}
+.sidebar a i{
+  font-size: 23px;
+  margin-right: 16px;
+}
+.sidebar a span{
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+#check{
+  display: none;
+}
+label #btn,label #cancel{
+  position: absolute;
+  left: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 15px 30px;
+  font-size: 29px;
+  box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    inset -7px -7px 10px 0px rgba(0,0,0,.1),
+   3.5px 3.5px 20px 0px rgba(0,0,0,.1),
+   2px 2px 5px 0px rgba(0,0,0,.1);
+  height: 45px;
+  width: 45px;
+  text-align: center;
+  text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
+  line-height: 45px;
+  transition: all .5s ease;
+  z-index: 1100;
+}
+label #cancel{
+  opacity: 0;
+  visibility: hidden;
+}
+#check:checked ~ .sidebar{
+  left: 0;
+}
+#check:checked ~ label #btn{
+  margin-left: 245px;
+  opacity: 0;
+  visibility: hidden;
+}
+#check:checked ~ label #cancel{
+  margin-left: 245px;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Fixed sidebar media query */
+@media(max-width: 860px) {
+  .sidebar {
+    height: 100%;
+    width: 240px;
+    left: -240px;
+    margin: 0;
+  }
+  
+  .sidebar header {
+    display: block;
+  }
+  
+  #btn, #cancel {
+    display: block;
+  }
+  
+  .sidebar a span {
+    display: inline;
+    position: relative;
+    margin-left: 0;
     opacity: 1;
     visibility: visible;
   }
-  @media(max-width : 860px){
-    .sidebar{
-      height: auto;
-      width: 70px;
-      left: 0;
-      margin: 100px 0;
-    }
-    header,#btn,#cancel{
-      display: none;
-    }
-    span{
-      position: absolute;
-      margin-left: 13px;
-      opacity: 0;
-      visibility: hidden;
-    }
-    .sidebar a{
-      height: 60px;
-    }
-    .sidebar a i{
-      margin-left: -5px;
-    }
-    a:hover {
-      width: 200px;
-      background: inherit;
-    }
-    .sidebar a:hover span{
-      opacity: 1;
-      visibility: visible;
-    }
+  
+  .sidebar a {
+    height: 60px;
   }
   
-  .sidebar > a.active,.sidebar > a:hover:nth-child(even) {
-    --accent-color:  #a5aab04d
-    ;
-    --gradient-color: #a5aab04d
-
-    ;
-  }
-  .sidebar a.active,.sidebar > a:hover:nth-child(odd) {
-    --accent-color:  #a5aab04d
-
-    ;
-    --gradient-color: #a5aab04d
-
-    ;
-  }
-
-
-
-  
-  
-  .frame {
-    width: 50%;
-    height: 30%;
-    margin: auto;
-    text-align: center;
+  .sidebar a i {
+    margin-left: 0;
   }
   
-  h2 {
-    position: relative;
-    text-align: center;
-    color: #353535;
-    font-size: 60px;
-    font-family: 'Lato', sans-serif;
-    margin: 0;
+  a:hover {
+    width: 100%;
   }
-  
-  p {
-    font-family: 'Lato', sans-serif;
-    font-weight: 300;
-    text-align: center;
-    font-size: 30px;
-    color: #d6adff;
-    margin: 0;
-  }
-  
+}
 
+.sidebar > a.active,.sidebar > a:hover:nth-child(even) {
+  --accent-color: #a5aab04d;
+  --gradient-color: #a5aab04d;
+}
+.sidebar a.active,.sidebar > a:hover:nth-child(odd) {
+  --accent-color: #a5aab04d;
+  --gradient-color: #a5aab04d;
+}
 
+.frame {
+  width: 50%;
+  height: 30%;
+  margin: auto;
+  text-align: center;
+}
 
+h2 {
+  position: relative;
+  text-align: center;
+  color: #353535;
+  font-size: 60px;
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+}
 
+p {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  text-align: center;
+  font-size: 30px;
+  color: #d6adff;
+  margin: 0;
+}
+
+/* Login form styles */
 .wrapper {
-    width: 380px;
-    padding: 40px 30px 50px 30px;
-    background: #fff;
-    border-radius: 5px;
-    text-align: center;
-    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1);
+  width: 380px;
+  padding: 40px 30px 50px 30px;
+  background: #fff;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .wrapper header {
-    font-size: 35px;
-    font-weight: 600;
+  font-size: 35px;
+  font-weight: 600;
 }
 
 .wrapper form {
-    margin: 40px 0;
+  margin: 40px 0;
 }
 
 form .field {
-    width: 100%;
-    margin-bottom: 20px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 form .field.shake {
-    animation: shake 0.3s ease-in-out;
+  animation: shake 0.3s ease-in-out;
 }
 
 @keyframes shake {
-    0%,
-    100% {
-        margin-left: 0px;
-    }
-    20%,
-    80% {
-        margin-left: -12px;
-    }
-    40%,
-    60% {
-        margin-left: 12px;
-    }
+  0%, 100% {
+    margin-left: 0px;
+  }
+  20%, 80% {
+    margin-left: -12px;
+  }
+  40%, 60% {
+    margin-left: 12px;
+  }
 }
 
 form .field .input-area {
-    height: 50px;
-    width: 100%;
-    position: relative;
+  height: 50px;
+  width: 100%;
+  position: relative;
 }
 
 form input {
-    width: 100%;
-    height: 100%;
-    outline: none;
-    padding: 0 45px;
-    font-size: 18px;
-    background: none;
-    caret-color: #5372F0;
-    border-radius: 5px;
-    border: 1px solid #bfbfbf;
-    border-bottom-width: 2px;
-    transition: all 0.2s ease;
-}
-
-form .field input:focus,
-form .field.valid input {
-  
-}
-
-form .field.shake input,
-form .field.error input {
-    border-color: #dc3545;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  padding: 0 45px;
+  font-size: 18px;
+  background: none;
+  caret-color: #5372F0;
+  border-radius: 5px;
+  border: 1px solid #bfbfbf;
+  border-bottom-width: 2px;
+  transition: all 0.2s ease;
 }
 
 .field .input-area i {
-    position: absolute;
-    top: 50%;
-    font-size: 18px;
-    pointer-events: none;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  font-size: 18px;
+  pointer-events: none;
+  transform: translateY(-50%);
 }
 
 .input-area .icon {
-    left: 15px;
-    color: #bfbfbf;
-    transition: color 0.2s ease;
+  left: 15px;
+  color: #bfbfbf;
+  transition: color 0.2s ease;
 }
 
 .input-area .error-icon {
-    right: 15px;
-    color: #dc3545;
-}
-
-form input:focus~.icon,
-form .field.valid .icon {
-    
-}
-
-form .field.shake input:focus~.icon,
-form .field.error input:focus~.icon {
-    color: #bfbfbf;
+  right: 15px;
+  color: #dc3545;
 }
 
 form input::placeholder {
-    color: #bfbfbf;
-    font-size: 17px;
+  color: #bfbfbf;
+  font-size: 17px;
 }
 
 form .field .error-txt {
-    color: #dc3545;
-    text-align: left;
-    margin-top: 5px;
+  color: #dc3545;
+  text-align: left;
+  margin-top: 5px;
 }
 
 form .field .error {
-    display: none;
+  display: none;
 }
 
 form .field.shake .error,
 form .field.error .error {
-    display: block;
+  display: block;
 }
 
 form .pass-txt {
-    text-align: left;
-    margin-top: -10px;
+  text-align: left;
+  margin-top: -10px;
 }
 
 .wrapper a {
-    color: #5372F0;
-    text-decoration: none;
+  color: #5372F0;
+  text-decoration: none;
 }
 
 .wrapper a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 form input[type="submit"] {
-    height: 50px;
-    margin-top: 30px;
-    color: #fff;
-    padding: 0;
-    border: none;
-    background: #5372F0;
-    cursor: pointer;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+  height: 50px;
+  margin-top: 30px;
+  color: #fff;
+  padding: 0;
+  border: none;
+  background: #5372F0;
+  cursor: pointer;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 form input[type="submit"]:hover {
-    background: #2c52ed;
+  background: #2c52ed;
+}
+
+/* Added responsive fixes for mobile portrait mode */
+@media (max-width: 420px) {
+  .wrapper {
+    width: 95%;
+    padding: 30px 20px 40px 20px;
+  }
+  
+  .wrapper header {
+    font-size: 28px;
+  }
+  
+  form input {
+    padding: 0 35px;
+    font-size: 16px;
+  }
+  
+  h2 {
+    font-size: 32px;
+  }
+  
+  p {
+    font-size: 18px;
+  }
+}
+
+/* Fix for landscape mode on small devices */
+@media (max-height: 600px) and (orientation: landscape) {
+  .chatbot {
+    height: 100vh;
+  }
+  
+  .chatbot .chatbox {
+    height: calc(100vh - 120px);
+  }
+  
+  .chatbot .chat-input {
+    bottom: 10px;
+  }
+  
+  .sidebar {
+    overflow-y: auto;
+  }
 }
