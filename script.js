@@ -3,25 +3,24 @@ const closeBtn = document.querySelector(".close-btn");
 const chatbox = document.querySelector(".chatbox");
 const chatInput = document.querySelector(".chat-input textarea");
 const sendChatBtn = document.querySelector(".chat-input span");
+
 window.addEventListener('load', () => {
     document.getElementById('ai1').click();
 });
+
 document.getElementById('ai1').addEventListener('click', function() {
     document.querySelector('.chatbot').classList.add('open');
-  });
-
-
+});
 
 function openNewPage() {
     window.location.href = "popup.html"; 
 }
 
 document.getElementById("popupBtn").addEventListener("click", openNewPage);
-
-  
   
 let userMessage = null; 
-const API_KEY =  'sk-proj-suPH14MjHazz7gAzrbDzT3BlbkFJDrwAFTRlfQn1EGOS9fXk'; 
+// Choose one API key based on which service you want to use
+const GROQ_API_KEY = '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';
 const inputInitHeight = chatInput.scrollHeight;
 
 const aiButtons = document.querySelectorAll(".sidebar a");
@@ -36,33 +35,44 @@ const createChatLi = (message, className) => {
     let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">smart_toy</span><p></p>`;
     chatLi.innerHTML = chatContent;
     chatLi.querySelector("p").textContent = message;
-    return chatLi; // return chat <li> element
+    return chatLi;
 }
 
 const generateResponse = (chatElement) => {
-    const API_URL = "https://api.openai.com/v1/chat/completions";
     const messageElement = chatElement.querySelector("p");
-
-    // Define the properties and message for the API request
+    
+   
+ 
+    // Option 2: Groq API
+    const API_URL = "https://api.groq.com/openai/v1/chat/completions";
     const requestOptions = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`
+            "Authorization": `Bearer ${GROQ_API_KEY}`
         },
         body: JSON.stringify({
-            model: "gpt-3.5-turbo",
+            model: "llama3-70b-8192",
             messages: [{role: "user", content: userMessage}],
+            temperature: 0.3,
+            max_tokens: 1024,
+            top_p: 1,
+            stream: false,
         })
-    }
+    };
+   
 
-    // Send POST request to API, get response and set the reponse as paragraph text
-    fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
-        messageElement.textContent = data.choices[0].message.content.trim();
-    }).catch(() => {
-        messageElement.classList.add("error");
-        messageElement.textContent = "Hello";
-    }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
+    fetch(API_URL, requestOptions)
+        .then(res => res.json())
+        .then(data => {
+            messageElement.textContent = data.choices[0].message.content.trim();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            messageElement.classList.add("error");
+            messageElement.textContent = "Oops! Something went wrong. Please try again.";
+        })
+        .finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
 }
 
 const handleChat = () => {
@@ -86,6 +96,69 @@ const handleChat = () => {
     }, 600);
 }
 
+// Speech recognition setup
+let recognition;
+let isListening = false;
+const micButton = document.createElement('span');
+micButton.id = 'mic-btn';
+micButton.className = 'material-symbols-rounded';
+micButton.textContent = 'mic';
+document.querySelector('.chat-input').insertBefore(micButton, sendChatBtn);
+
+// Initialize speech recognition
+const initSpeechRecognition = () => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+        
+        recognition.onstart = () => {
+            isListening = true;
+            micButton.textContent = 'mic';
+            micButton.classList.add('listening');
+        };
+        
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            chatInput.value = transcript;
+            
+            // Auto-resize the textarea
+            chatInput.style.height = `${inputInitHeight}px`;
+            chatInput.style.height = `${chatInput.scrollHeight}px`;
+        };
+        
+        recognition.onend = () => {
+            isListening = false;
+            micButton.textContent = 'mic';
+            micButton.classList.remove('listening');
+        };
+        
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            isListening = false;
+            micButton.textContent = 'mic';
+            micButton.classList.remove('listening');
+        };
+    } else {
+        console.error('Speech recognition not supported in this browser');
+        micButton.style.display = 'none';
+    }
+};
+
+// Toggle speech recognition on mic button click
+micButton.addEventListener('click', () => {
+    if (!recognition) {
+        initSpeechRecognition();
+    }
+    
+    if (isListening) {
+        recognition.stop();
+    } else {
+        recognition.start();
+    }
+});
+
 chatInput.addEventListener("input", () => {
     // Adjust the height of the input textarea based on its content
     chatInput.style.height = `${inputInitHeight}px`;
@@ -104,3 +177,6 @@ chatInput.addEventListener("keydown", (e) => {
 sendChatBtn.addEventListener("click", handleChat);
 closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
 chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+
+// Initialize speech recognition on page load
+document.addEventListener('DOMContentLoaded', initSpeechRecognition);
